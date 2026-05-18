@@ -1,0 +1,99 @@
+[
+  {
+    "id": "github:demo/company/main/openapi.yaml",
+    "source_url": "https://raw.githubusercontent.com/demo/company/main/openapi.yaml",
+    "sources": [
+      "https://raw.githubusercontent.com/demo/company-mirror/main/openapi.yaml",
+      "https://raw.githubusercontent.com/demo/company/main/openapi.yaml"
+    ],
+    "source_count": 2,
+    "title": "Demo Billing API",
+    "oas_version": "3.0.0",
+    "latest_version": "2.0.0",
+    "paths_count": 2,
+    "path_keys": [
+      "/teams",
+      "/users"
+    ],
+    "servers": [
+      "https://api.demo.example"
+    ],
+    "tags": [
+      "Billing",
+      "Teams"
+    ],
+    "description": "Added teams support and retired legacy orders access.",
+    "validation_notes": [
+      "Valid OpenAPI document detected",
+      "Discovered 2 path(s)",
+      "info.description is populated",
+      "Resolved 1 server URL(s)",
+      "Discovered 2 top-level tag(s)"
+    ],
+    "confidence_score": 0.95,
+    "fetched_at": "2026-05-16T19:39:02.016001+00:00",
+    "status": "active",
+    "hash": "a4411ed252cdd4fda68c82394d9b36e6073981abb578414e059c69cb379739a2",
+    "semantic_hash": "a4411ed252cdd4fda68c82394d9b36e6073981abb578414e059c69cb379739a2",
+    "content_hash": "e89068ff03a4a8a3881e4409ada95f7fee12f43a25263613e3729d9ec10af1da",
+    "history": [
+      {
+        "version": "1.0.0",
+        "replaced_by_version": "2.0.0",
+        "content_hash": "cce93c044c0bc51d67901236b3d9a691fed201570ce912bb47b02d700fd19dd1",
+        "semantic_hash": "f6be81eb6a7c76d3be1c291447d7ac14d5097f90f0eccf9c83b50add07a92939",
+        "paths_count": 2,
+        "recorded_at": "2026-05-16T19:39:02.016001+00:00",
+        "paths_delta": 0,
+        "diff": {
+          "added_paths": [
+            "/teams"
+          ],
+          "removed_paths": [
+            "/orders"
+          ],
+          "added_count": 1,
+          "removed_count": 1,
+          "net_paths_delta": 0
+        }
+      }
+    ],
+    "failure_count": 0,
+    "last_checked_at": "2026-05-16T19:39:02.016001+00:00"
+  },
+  {
+    "id": "github:demo/legacy/main/swagger.yaml",
+    "source_url": "https://raw.githubusercontent.com/demo/legacy/main/swagger.yaml",
+    "sources": [
+      "https://raw.githubusercontent.com/demo/legacy/main/swagger.yaml"
+    ],
+    "source_count": 1,
+    "title": "Legacy Reports API",
+    "oas_version": "2.0",
+    "latest_version": "0.9.0",
+    "paths_count": 1,
+    "path_keys": [
+      "/reports"
+    ],
+    "servers": [],
+    "tags": [],
+    "description": "",
+    "validation_notes": [
+      "Valid Swagger document detected",
+      "Discovered 1 path(s)",
+      "No info.description provided",
+      "No explicit servers declared",
+      "No top-level tags declared"
+    ],
+    "confidence_score": 0.8,
+    "fetched_at": "2026-05-16T19:39:02.016001+00:00",
+    "status": "stale",
+    "hash": "c04b7fd0f77d4cf5ca8d6d2fbd0085574eca17282637935cc256fdeda2491c41",
+    "semantic_hash": "c04b7fd0f77d4cf5ca8d6d2fbd0085574eca17282637935cc256fdeda2491c41",
+    "content_hash": "701f719e99d63f011826634a094e5a7d52c91ce9eefe452370f66806186f591b",
+    "history": [],
+    "failure_count": 0,
+    "last_checked_at": "2026-05-16T19:39:02.016001+00:00",
+    "stale_reason": "not_discovered"
+  }
+]

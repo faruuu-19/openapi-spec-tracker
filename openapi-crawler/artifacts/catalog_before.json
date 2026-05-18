@@ -1,0 +1,75 @@
+[
+  {
+    "id": "github:demo/company/main/openapi.yaml",
+    "source_url": "https://raw.githubusercontent.com/demo/company/main/openapi.yaml",
+    "sources": [
+      "https://raw.githubusercontent.com/demo/company/main/openapi.yaml"
+    ],
+    "source_count": 1,
+    "title": "Demo Billing API",
+    "oas_version": "3.0.0",
+    "latest_version": "1.0.0",
+    "paths_count": 2,
+    "path_keys": [
+      "/orders",
+      "/users"
+    ],
+    "servers": [
+      "https://api.demo.example"
+    ],
+    "tags": [
+      "Billing"
+    ],
+    "description": "Initial release of the billing API.",
+    "validation_notes": [
+      "Valid OpenAPI document detected",
+      "Discovered 2 path(s)",
+      "info.description is populated",
+      "Resolved 1 server URL(s)",
+      "Discovered 1 top-level tag(s)"
+    ],
+    "confidence_score": 0.95,
+    "fetched_at": "2026-05-16T19:39:02.016001+00:00",
+    "status": "active",
+    "hash": "f6be81eb6a7c76d3be1c291447d7ac14d5097f90f0eccf9c83b50add07a92939",
+    "semantic_hash": "f6be81eb6a7c76d3be1c291447d7ac14d5097f90f0eccf9c83b50add07a92939",
+    "content_hash": "cce93c044c0bc51d67901236b3d9a691fed201570ce912bb47b02d700fd19dd1",
+    "history": [],
+    "failure_count": 0,
+    "last_checked_at": "2026-05-16T19:39:02.016001+00:00"
+  },
+  {
+    "id": "github:demo/legacy/main/swagger.yaml",
+    "source_url": "https://raw.githubusercontent.com/demo/legacy/main/swagger.yaml",
+    "sources": [
+      "https://raw.githubusercontent.com/demo/legacy/main/swagger.yaml"
+    ],
+    "source_count": 1,
+    "title": "Legacy Reports API",
+    "oas_version": "2.0",
+    "latest_version": "0.9.0",
+    "paths_count": 1,
+    "path_keys": [
+      "/reports"
+    ],
+    "servers": [],
+    "tags": [],
+    "description": "",
+    "validation_notes": [
+      "Valid Swagger document detected",
+      "Discovered 1 path(s)",
+      "No info.description provided",
+      "No explicit servers declared",
+      "No top-level tags declared"
+    ],
+    "confidence_score": 0.8,
+    "fetched_at": "2026-05-16T19:39:02.016001+00:00",
+    "status": "active",
+    "hash": "c04b7fd0f77d4cf5ca8d6d2fbd0085574eca17282637935cc256fdeda2491c41",
+    "semantic_hash": "c04b7fd0f77d4cf5ca8d6d2fbd0085574eca17282637935cc256fdeda2491c41",
+    "content_hash": "701f719e99d63f011826634a094e5a7d52c91ce9eefe452370f66806186f591b",
+    "history": [],
+    "failure_count": 0,
+    "last_checked_at": "2026-05-16T19:39:02.016001+00:00"
+  }
+]

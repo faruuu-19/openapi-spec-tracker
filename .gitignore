@@ -1,0 +1,30 @@
+# Secrets
+.env
+**/.env
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+
+# Runtime output
+logs/
+
+# Node / pnpm
+node_modules/
+.pnpm-store/
+.local/
+dist/
+coverage/
+*.tsbuildinfo
+
+# Local editor/system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Backups created while converting the Replit project into one root repo
+.dashboard-git-backup/

@@ -1,0 +1,81 @@
+Build a single-page React dashboard for an OpenAPI Spec Crawler project. It has three tabs: Catalog, Architecture, and Behind the Scenes.
+
+Design
+Light theme. Not white — use soft off-white neutrals like #F4F6F8 or #F9FAFB as the base background. Pure white (#FFFFFF) only for card surfaces so they lift slightly off the background. The UI should feel calm, structured, and trustworthy — like a serious internal tool, not a startup landing page.
+Typography in dark charcoal, not black. Something like #1A1A2E or #2D2D3A for headings, #5A5A72 for secondary text. Never pure black on a light background.
+Hierarchy through weight and spacing, not color. Use font weight 500 for labels and headings, 400 for body. Generous whitespace between sections.
+Shadows sparingly. Cards get one subtle drop shadow — soft, low opacity, no harsh edges. Something like box-shadow: 0 2px 8px rgba(0,0,0,0.06). No more than two depth levels across the whole UI.
+Accent color: a single calm blue or indigo — used only for active states, CTAs, and highlights. Not splashed everywhere.
+Status colors: green for active, amber for stale, red for invalid — all muted, not neon. Think pastel badges with darker text from the same color family.
+Monospace font for IDs, hashes, JSON, and log output. Everything else sans-serif.
+Code blocks and the log terminal use a soft dark surface — something like #1E1E2E or #16161D — so they contrast cleanly against the light UI without feeling like a different app. This is the only dark element allowed.
+No gradients. No glassmorphism. No purple. Borders at 0.5-1px, very low opacity. The UI should breathe — whitespace is doing work, not decoration.
+Tailwind is fine. Lucide-react for icons.
+
+Tab 1 — Catalog
+A stats row at the top showing: Total Specs, Active, Stale, Invalid, Rejected. Each as a small card with a number and label.
+Directly below the stats row, show a last run summary bar. This is a single subtle line of muted text, not a card. Format it exactly like this: Run crawl_001 · 2026-05-17 08:22 UTC · 421ms · 50 sources discovered. Small monospace font, secondary text color, sits quietly under the stats cards without competing with them.
+Below that, a search bar and filter controls. Allow filtering by status (All, Active, Stale, Invalid) and sorting by validation confidence, paths count, or last fetched. These should work functionally even with hardcoded data.
+In the top right of the catalog table area, add a small toggle with two options: Table and JSON. Table is the default — shows the visual table with badges, progress bars, and expandable rows as described below. JSON switches the view to a styled code block showing the raw catalog.json output for all entries currently visible — respecting whatever search or filter is active. So if you filter to only Active specs, the JSON view shows only those entries. Format it with syntax highlighting — keys in one color, strings in another, numbers in another. Include a copy button in the top right of the code block. The JSON code block should have a fixed height with internal scroll so it does not become overwhelming. The toggle should be subtle — two small pill buttons side by side, the active one filled, the inactive one outlined. Switching between them should be instant with no animation.
+Below that a table of specs. Each row shows: API title, status badge (color coded — muted green for active, muted amber for stale, muted red for invalid), OAS version, paths count, a Sources column showing how many source URLs were collapsed into this entry (example: "3 sources" as a small muted badge — this surfaces the duplicate collapse feature clearly), validation confidence as a small progress bar labeled explicitly as "Validation confidence" not just "confidence", and last fetched timestamp.
+If a spec had a format-only change detected on its last update, show a small inline badge on that row that reads "Format-only · No rebuild needed" in muted amber. This surfaces the semantic hashing feature visually without requiring explanation.
+Clicking a row opens a full-screen modal overlay showing everything about that spec:
+
+Full source URLs list with a header noting how many mirrors were collapsed
+Version history as a visual timeline: each entry shows version string, date, hash truncated to 8 chars, and paths delta as +N or -N in green or red
+A diff viewer showing the last update: two columns, left shows removed paths in muted red, right shows added paths in muted green with subtle background highlights
+Validation notes listed as small tags
+Validation confidence score with a breakdown explaining each component that contributed to the score — not just the number
+
+Below the catalog table, a live log simulator panel. This is a terminal-style box with a soft dark surface (#1E1E2E) fixed to the bottom of the tab. On page load it starts auto-playing fake structured JSON log lines one by one, each with a timestamp, run ID, log level, and message. Lines scroll upward as new ones appear. It should loop so it never stops. Write at least 20 varied log lines covering discovery, fetch, parse, validation failure, format-only change detected, duplicate collapse, stale transition, 304 not modified, and run complete. Include at least one line that explicitly says "format_only_change: true, downstream_rebuild: false" to surface the semantic hashing feature in the logs.
+Also add a Simulate Update button in the stats row area. When clicked it triggers a visible crawl sequence — the log panel fires a burst of new log lines in real time showing a spec being re-fetched, its semantic hash changing, a diff being generated, and a new history entry being written. Simultaneously one of the catalog rows visually updates — its version changes, a subtle green flash appears on the row, and if that row's modal is open the history timeline gains a new entry at the top with a small animation.
+
+Tab 2 — Architecture
+At the very top of this tab, before the diagram, show a single quiet callout box. Light indigo or blue-tinted background, subtle border, small text. It reads: "Reliable specs are the input layer for SDKs, docs, portals, and AI tools. This crawler keeps that input layer fresh and trustworthy." This connects the project directly to APIMatic's core product without being heavy-handed.
+A vertical pipeline diagram below that. Each stage is a clickable node:
+
+GitHub Search API
+Discovery Engine
+Fetch Queue
+Parser + Validator
+Hash Engine
+Version Store
+Catalog JSON
+
+Nodes connected by animated dotted lines flowing downward to show data movement. The dots should loop continuously so the pipeline feels alive.
+Clicking a node opens a side panel. Keep each panel to one short paragraph — 2-3 sentences maximum. The copy should be plain English, no bullet points. People will not read long text during a Loom. Write it so the key idea lands in the first sentence.
+GitHub Search API: "Fires multiple discovery queries across public repositories — covering openapi.yaml, swagger.json, and broader extension-based patterns that catch API-name files like stripe.json. A personal access token bumps the rate limit from 10 to 30 requests per minute."
+Discovery Engine: "Resolves raw search results and seed inputs into fetchable URLs. Intentionally separate from parsing so new discovery sources beyond GitHub can be plugged in later without touching the ingestion logic."
+Fetch Queue: "Manages HTTP fetching with retry and backoff. On re-crawls it sends ETag and Last-Modified headers — a 304 response skips the spec entirely, saving bandwidth and rate limit budget."
+Parser + Validator: "Handles Swagger 2.x and OpenAPI 3.x in YAML and JSON. For Swagger 2.x, server info is reconstructed from host, basePath, and schemes. Strict validation rejects noisy files before any metadata is extracted — a smaller clean catalog is more valuable than a large unreliable one."
+Hash Engine: "Computes two hashes per spec. The content hash catches exact file changes. The semantic hash is computed after normalization — so formatting-only edits do not trigger downstream SDK or docs rebuilds. Format-only changes are tracked separately from real API evolution."
+Version Store: "Writes immutable history entries instead of overwriting state. Each entry preserves the previous version string, both hashes, path count, and timestamp — so previous spec states remain reproducible for downstream SDK generation."
+Catalog JSON: "The final persisted output. Each entry stores status, validation confidence, source URLs, both hashes, and immutable version history. Designed as long-lived data — the loader tolerates older or malformed entries without crashing."
+
+Tab 3 — Behind the Scenes
+At the very top of this tab, show the same quiet callout as in the Architecture tab: "Reliable specs are the input layer for SDKs, docs, portals, and AI tools. This crawler keeps that input layer fresh and trustworthy."
+This tab explains what happens during a real crawl run as an animated stepper walkthrough. Steps animate in one by one with a short staggered delay on first load. Each step has a small icon from lucide-react, a bold one-line title, and 2-3 sentences of plain explanation.
+Steps:
+
+Crawl starts — Run ID assigned, structured JSON logging begins across all subsequent operations
+GitHub Search API queried — Multiple discovery queries fire covering openapi.yaml, openapi.json, swagger.yaml, swagger.json, and broader extension-based patterns
+Seed repos and direct URLs fetched — Configurable seed list provides deterministic bootstrapping independent of search results
+Validation before parsing — Every fetched file goes through strict validation. Unrelated YAML, broken JSON, missing info.title, missing info.version, and files that merely mention OpenAPI keywords are all rejected here
+Parsing and metadata extraction — Parser handles Swagger 2.x and OpenAPI 3.x in YAML and JSON. For Swagger 2.x, server info is reconstructed from host, basePath, and schemes since that structure differs from 3.x
+Validation confidence computed — Based on metadata completeness, valid servers, tag coverage, and schema validity. Each contributing factor is tracked separately
+Content hash and semantic hash computed — Two separate fingerprints per spec serving different purposes. Semantic hash is computed after canonical normalization
+Duplicate detection — Semantic hashes compared across all discovered specs. Identical specs collapsed into one canonical catalog entry with all source URLs preserved. Primary source selected deterministically for stable catalog IDs
+Version comparison — Semantic hash compared to previous crawl. Three possible outcomes: real API change, formatting-only change, or no change. Format-only changes are recorded separately and do not trigger downstream rebuilds
+Changelog diff generated — When a real change is detected, added and removed paths are stored explicitly rather than just tracking path count changes
+Immutable history written — Previous version snapshot preserved with hashes, timestamps, path count, and version string
+Conditional fetch on re-crawls — ETag and Last-Modified headers sent. 304 responses skip downloading and reparsing entirely
+Lifecycle states updated — Specs transition between active, stale, and invalid based on fetch outcomes and validation results. Specs do not silently disappear from the catalog
+Run report written — Structured summary of new, updated, unchanged, stale, invalid, rejected, duplicates collapsed, format-only changes, and failed entries
+
+Above the code blocks, show the run report numbers as a clean visual summary grid — big numbers with muted labels. New: 4, Updated: 2, Unchanged: 18, Stale: 1, Rejected: 3, Duplicates Collapsed: 2, Format-only Changes: 1, Failed: 0.
+At the bottom show two side-by-side styled code blocks on the dark surface (#1E1E2E), both with fixed height and internal scroll. Left: a sample structured log output showing 8-10 varied JSON log lines. Right: a sample run_report.json with realistic numbers. Both blocks have a small copy button in the top right corner.
+
+General notes
+No backend needed. All data is hardcoded. The app should feel like a real internal tool, not a student project. Subtle hover states on all interactive elements. Smooth tab transitions. The simulate update button should feel satisfying to press — the sequence of events should be clearly visible and not instant.
+Use realistic fake data throughout. Catalog entries: Stripe API (active, 312 paths, validation confidence 94, 2 sources collapsed), Twilio API (active, 87 paths, validation confidence 88, 1 source), GitHub REST API (active, 521 paths, validation confidence 91, 3 sources collapsed), Petstore (stale, 18 paths, validation confidence 62, 1 source), some-broken-api (invalid, 0 paths, validation confidence 11, 1 source). Each should have 2-3 history entries and at least one with a real diff showing added and removed paths. The Stripe entry should have a format-only change badge visible on the table row.
+Sonnet 4.6Adaptive

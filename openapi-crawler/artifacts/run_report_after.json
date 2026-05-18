@@ -1,0 +1,21 @@
+{
+  "run_id": "demo-artifacts",
+  "generated_at": "2026-05-16T19:39:02.016001+00:00",
+  "counts": {
+    "discovered": 2,
+    "new": 0,
+    "updated": 1,
+    "unchanged": 0,
+    "fetched": 1,
+    "not_modified": 0,
+    "failed": 0,
+    "rejected": 0,
+    "duplicates_collapsed": 1,
+    "format_only_changes": 0,
+    "active": 1,
+    "stale": 1,
+    "invalid": 0
+  },
+  "failed_urls": [],
+  "rejected_urls": []
+}

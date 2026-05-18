@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "OpenAPI Spec Crawler Dashboard"
+version = "1.0.0"
+id = "artifacts/openapi-crawler-dashboard"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 20590
+
+[services.development]
+run = "pnpm --filter @workspace/openapi-crawler-dashboard run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/openapi-crawler-dashboard", "run", "build" ]
+publicDir = "artifacts/openapi-crawler-dashboard/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "20590"
+BASE_PATH = "/"
