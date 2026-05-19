@@ -236,11 +236,19 @@ Crawler -> Parser -> Versioner -> Catalog
 Beyond The Requirements
 The following were not required by the task but were added to improve correctness and real-world usefulness.
 Semantic hashing — The task required content hashing. Semantic hashing was added on top so formatting-only YAML changes are not treated as real API updates. The system distinguishes three outcomes: real API change, formatting-only change, and no change.
+
 Exact path-level diffs — The task required version tracking. Diffs here are computed from actual endpoint path sets, not just path counts, so the catalog records exactly which endpoints were added or removed between versions.
+
+
 Duplicate collapse — Public specs are frequently mirrored across repositories. The crawler collapses semantically identical specs into one canonical entry rather than creating duplicate catalog records.
 Confidence scoring — Each catalog entry carries a confidence_score and validation_notes so the trustworthiness of each entry is machine-readable, not just implied.
+
+
 Stale-state transitions — Specs that repeatedly fail fetching, disappear from discovery, or regress from valid to invalid are transitioned to stale or invalid rather than silently dropped.
+
 Interactive dashboard — A React frontend and Node.js backend API were built on top of the crawler pipeline so catalog state, version history, and run metrics are browsable interactively rather than only through raw JSON files.
+
+
 Deterministic proof artifacts — generate_demo_artifacts.py produces a reproducible before/after catalog pair demonstrating all the harder behaviors (semantic updates, history, diffs, stale transitions, duplicate collapse) without requiring a live crawl.
 
 # What The System Does
